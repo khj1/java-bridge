@@ -6,6 +6,7 @@ import model.MovingResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -58,5 +59,12 @@ class BridgeGameTest {
                 Arguments.arguments(Moving.UP, Moving.DOWN, true),
                 Arguments.arguments(Moving.UP, Moving.UP, false)
         );
+    }
+
+    @Test
+    void 재시작_하면_시도횟수가_증가한다() {
+        bridgeGame.retry();
+
+        assertThat(bridgeGame.getTrialCount()).isEqualTo(2);
     }
 }

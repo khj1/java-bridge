@@ -12,9 +12,11 @@ public class BridgeGame {
     private static final int STARTING_POINT = 0;
     private static final boolean SUCCESS = true;
     private static final boolean FAIL = false;
+    private static final int FIRST_TRIAL = 1;
 
     private final Bridge bridge;
     private int position = STARTING_POINT;
+    private int trialCount = FIRST_TRIAL;
 
     public BridgeGame(Bridge bridge) {
         this.bridge = bridge;
@@ -45,9 +47,15 @@ public class BridgeGame {
      * 재시작을 위해 필요한 메서드의 반환 타입(return type), 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
      */
     public void retry() {
+        position = STARTING_POINT;
+        trialCount++;
     }
 
     public boolean isComplete() {
         return bridge.size() == position;
+    }
+
+    public int getTrialCount() {
+        return trialCount;
     }
 }
