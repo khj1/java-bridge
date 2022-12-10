@@ -1,6 +1,6 @@
 package bridge;
 
-import model.Moving;
+import bridge.model.Moving;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,8 +1,8 @@
 package bridge.service;
 
-import model.Bridge;
-import model.Moving;
-import model.MovingResult;
+import bridge.model.Bridge;
+import bridge.model.Moving;
+import bridge.model.MovingResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;

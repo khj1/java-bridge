@@ -1,4 +1,4 @@
-package model;
+package bridge.model;
 
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;

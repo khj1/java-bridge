@@ -1,6 +1,5 @@
 package bridge.model;
 
-import model.Moving;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
