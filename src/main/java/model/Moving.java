@@ -7,6 +7,7 @@ public enum Moving {
     DOWN(0, "D");
 
     private static final String INVALID_COMMAND_INPUT = "0 또는 1 만 입력할 수 있습니다.";
+    private static final String INVALID_DIRECTION_INPUT = "U 또는 D만 입력할 수 있습니다.";
 
     private final int command;
     private final String direction;
@@ -24,11 +25,22 @@ public enum Moving {
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_COMMAND_INPUT));
     }
 
-    private String getDirection() {
-        return direction;
+    public static Moving from(String direction) {
+        return Arrays.stream(values())
+                .filter(moving -> moving.isSameDirection(direction))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_DIRECTION_INPUT));
     }
 
     private boolean isSameCommand(int command) {
         return this.command == command;
+    }
+
+    private String getDirection() {
+        return direction;
+    }
+
+    private boolean isSameDirection(String direction) {
+        return this.direction.equals(direction);
     }
 }
