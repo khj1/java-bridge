@@ -23,6 +23,7 @@ public class OutputView {
     private static final String COMPLETE_STATUS_IS = "게임 성공 여부: %s";
     private static final String TRIAL_COUNT_IS = "총 시도한 횟수: %s";
     private static final String GAME_RESULT_IS = "최종 게임 결과";
+    private static final String ERROR_PREFIX = "[ERROR]";
 
     /**
      * 현재까지 이동한 다리의 상태를 정해진 형식에 맞춰 출력한다.
@@ -76,5 +77,10 @@ public class OutputView {
             return SUCCESS;
         }
         return FAIL;
+    }
+
+    public void printError(IllegalArgumentException error) {
+        System.out.print(ERROR_PREFIX);
+        System.out.println(error.getMessage());
     }
 }
