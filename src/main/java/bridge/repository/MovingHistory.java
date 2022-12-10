@@ -8,17 +8,17 @@ import java.util.List;
 
 public class MovingHistory {
 
-    private final List<MovingResult> results = new ArrayList<>();
+    private static final List<MovingResult> results = new ArrayList<>();
 
-    public void save(MovingResult result) {
+    public static void save(MovingResult result) {
         results.add(result);
     }
 
-    public MovingHistory clear() {
-        return new MovingHistory();
+    public static void clear() {
+        results.clear();
     }
 
-    public List<MovingResult> get() {
+    public static List<MovingResult> get() {
         return Collections.unmodifiableList(results);
     }
 }

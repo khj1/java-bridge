@@ -20,36 +20,65 @@ public class BridgeController {
 
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
+    private final BridgeGame bridgeGame;
+
+    public BridgeController() {
+        bridgeGame = setUpGame();
+    }
+
+    private BridgeGame setUpGame() {
+        outputView.printIntro();
+        return BridgeGame.of(makeBridge());
+    }
 
     public void run() {
-        outputView.printIntro();
-        BridgeSize bridgeSize = checkError(inputView::readBridgeSize);
-        BridgeNumberGenerator numberGenerator = new BridgeRandomNumberGenerator();
-        BridgeMaker bridgeMaker = new BridgeMaker(numberGenerator);
-        List<String> directions = bridgeMaker.makeBridge(bridgeSize.get());
-        Bridge bridge = Bridge.from(directions);
-
-        BridgeGame bridgeGame = BridgeGame.of(bridge);
-        MovingHistory movingHistory = new MovingHistory();
-
         boolean playable = true;
         while (playable) {
-            Moving moving = checkError(inputView::readMoving);
-            MovingResult result = bridgeGame.move(moving);
-            movingHistory.save(result);
-            outputView.printMap(movingHistory);
+            MovingResult result = move();
+            outputView.printMap();
 
-            if (!result.isSuccess()) {
-                GameCommand gameCommand = checkError(inputView::readGameCommand);
-                if (gameCommand.isQuit()) {
-                    playable = false;
-                }
-                bridgeGame.retry();
-                movingHistory = movingHistory.clear();
-            }
-            playable = !bridgeGame.isComplete();
+            playable = updateStatus(result);
         }
-        outputView.printResult(movingHistory, bridgeGame);
+        outputView.printResult(bridgeGame);
+    }
+
+    private MovingResult move() {
+        Moving moving = checkError(inputView::readMoving);
+        MovingResult result = bridgeGame.move(moving);
+        MovingHistory.save(result);
+
+        return result;
+    }
+
+    private boolean updateStatus(MovingResult result) {
+        if (result.isSuccess()) {
+            return !bridgeGame.isComplete();
+        }
+        return askRestart();
+    }
+
+    private boolean askRestart() {
+        GameCommand gameCommand = checkError(inputView::readGameCommand);
+        if (gameCommand.isQuit()) {
+            return false;
+        }
+        bridgeGame.retry();
+        MovingHistory.clear();
+        return true;
+    }
+
+    private Bridge makeBridge() {
+        BridgeMaker bridgeMaker = getBridgeMaker();
+        BridgeSize bridgeSize = checkError(inputView::readBridgeSize);
+        List<String> directions = bridgeMaker.makeBridge(bridgeSize.get());
+
+        return Bridge.from(directions);
+    }
+
+    private static BridgeMaker getBridgeMaker() {
+        BridgeNumberGenerator numberGenerator = new BridgeRandomNumberGenerator();
+
+        return new BridgeMaker(numberGenerator);
     }
 
     private <T> T checkError(Supplier<T> inputReader) {
