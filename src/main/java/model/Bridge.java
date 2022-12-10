@@ -24,4 +24,8 @@ public class Bridge {
     public Moving getMovingAt(int position) {
         return bridge.get(position);
     }
+
+    public int size() {
+        return bridge.size();
+    }
 }

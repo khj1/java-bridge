@@ -46,4 +46,8 @@ public class BridgeGame {
      */
     public void retry() {
     }
+
+    public boolean isComplete() {
+        return bridge.size() == position;
+    }
 }
