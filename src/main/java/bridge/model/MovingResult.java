@@ -13,4 +13,16 @@ public class MovingResult {
     public static MovingResult of(Moving moving, boolean isSuccess) {
         return new MovingResult(moving, isSuccess);
     }
+
+    public boolean isUp() {
+        return moving == Moving.UP;
+    }
+
+    public boolean isDown() {
+        return moving == Moving.DOWN;
+    }
+
+    public boolean isSuccess() {
+        return isSuccess;
+    }
 }
