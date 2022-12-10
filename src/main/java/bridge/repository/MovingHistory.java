@@ -10,7 +10,7 @@ public class MovingHistory {
 
     private final List<MovingResult> results = new ArrayList<>();
 
-    public void sava(MovingResult result) {
+    public void save(MovingResult result) {
         results.add(result);
     }
 

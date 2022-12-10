@@ -24,4 +24,8 @@ public enum GameCommand {
     private boolean isSameCommand(String command) {
         return this.command.equals(command);
     }
+
+    public boolean isQuit() {
+        return this == GameCommand.QUIT;
+    }
 }

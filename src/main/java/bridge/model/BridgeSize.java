@@ -26,4 +26,8 @@ public class BridgeSize {
     public static BridgeSize from(int size) {
         return new BridgeSize(size);
     }
+
+    public int get() {
+        return size;
+    }
 }
