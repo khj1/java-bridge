@@ -33,18 +33,28 @@ public class OutputView {
      */
     public void printMap() {
         List<MovingResult> results = MovingHistory.get();
-        List<String> upSide = results.stream()
-                .map(result -> convert(result, result::isUp))
-                .collect(Collectors.toList());
+        List<String> upSide = convertToUpSideMap(results);
+        List<String> downSide = convertToDownSideMap(results);
 
-        List<String> downSide = results.stream()
+        printSide(upSide);
+        printSide(downSide);
+        System.out.println();
+    }
+
+    private List<String> convertToDownSideMap(List<MovingResult> results) {
+        return results.stream()
                 .map(result -> convert(result, result::isDown))
                 .collect(Collectors.toList());
+    }
 
-        System.out.printf(BRIDGE_MAP_FORMAT, String.join(BRIDGE_SEPARATOR, upSide));
-        System.out.println();
-        System.out.printf(BRIDGE_MAP_FORMAT, String.join(BRIDGE_SEPARATOR, downSide));
-        System.out.println();
+    private List<String> convertToUpSideMap(List<MovingResult> results) {
+        return results.stream()
+                .map(result -> convert(result, result::isUp))
+                .collect(Collectors.toList());
+    }
+
+    private void printSide(List<String> side) {
+        System.out.printf(BRIDGE_MAP_FORMAT, String.join(BRIDGE_SEPARATOR, side));
         System.out.println();
     }
 
@@ -64,11 +74,22 @@ public class OutputView {
      * 출력을 위해 필요한 메서드의 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
      */
     public void printResult(BridgeGame bridgeGame) {
-        System.out.println(GAME_RESULT_IS);
+        printOutro();
         printMap();
+        printCompleteStatus(bridgeGame);
+        printTrialCount(bridgeGame);
+    }
 
+    private void printOutro() {
+        System.out.println(GAME_RESULT_IS);
+    }
+
+    private void printCompleteStatus(BridgeGame bridgeGame) {
         System.out.printf(COMPLETE_STATUS_IS, convertCompleteStatus(bridgeGame));
         System.out.println();
+    }
+
+    private void printTrialCount(BridgeGame bridgeGame) {
         System.out.printf(TRIAL_COUNT_IS, bridgeGame.getTrialCount());
         System.out.println();
     }
