@@ -18,6 +18,9 @@ import java.util.function.Supplier;
 
 public class BridgeController {
 
+    private static final boolean PLAYABLE = true;
+    private static final boolean NOT_PLAYABLE = false;
+    
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
     private final BridgeGame bridgeGame;
@@ -32,11 +35,9 @@ public class BridgeController {
     }
 
     public void run() {
-        boolean playable = true;
+        boolean playable = PLAYABLE;
         while (playable) {
             MovingResult result = move();
-            outputView.printMap();
-
             playable = updateStatus(result);
         }
         outputView.printResult(bridgeGame);
@@ -46,25 +47,33 @@ public class BridgeController {
         Moving moving = checkError(inputView::readMoving);
         MovingResult result = bridgeGame.move(moving);
         MovingHistory.save(result);
+        outputView.printMap();
 
         return result;
     }
 
     private boolean updateStatus(MovingResult result) {
-        if (result.isSuccess()) {
-            return !bridgeGame.isComplete();
+        if (result.isFail()) {
+            return askRestart();
         }
-        return askRestart();
+        if (bridgeGame.isComplete()) {
+            return NOT_PLAYABLE;
+        }
+        return PLAYABLE;
     }
 
     private boolean askRestart() {
         GameCommand gameCommand = checkError(inputView::readGameCommand);
-        if (gameCommand.isQuit()) {
-            return false;
+        if (gameCommand.isRestart()) {
+            retry();
+            return PLAYABLE;
         }
+        return NOT_PLAYABLE;
+    }
+
+    private void retry() {
         bridgeGame.retry();
         MovingHistory.clear();
-        return true;
     }
 
     private Bridge makeBridge() {

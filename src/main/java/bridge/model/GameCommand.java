@@ -25,7 +25,7 @@ public enum GameCommand {
         return this.command.equals(command);
     }
 
-    public boolean isQuit() {
-        return this == GameCommand.QUIT;
+    public boolean isRestart() {
+        return this == GameCommand.RESTART;
     }
 }
