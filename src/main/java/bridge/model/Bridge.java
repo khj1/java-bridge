@@ -21,11 +21,11 @@ public class Bridge {
                 .collect(Collectors.toList());
     }
 
-    public Moving getMovingAt(int position) {
-        return bridge.get(position);
-    }
-
     public int size() {
         return bridge.size();
+    }
+
+    public boolean hasSameMovingAt(int position, Moving moving) {
+        return bridge.get(position) == moving;
     }
 }

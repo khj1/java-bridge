@@ -25,8 +25,4 @@ public class MovingResult {
     public boolean isSuccess() {
         return isSuccess;
     }
-
-    public boolean isFail() {
-        return !isSuccess;
-    }
 }
